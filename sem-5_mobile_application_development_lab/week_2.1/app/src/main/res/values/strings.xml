@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Implicit Intent</string>
+    <string name="name">Name</string>
+    <string name="go">Go</string>
+    <string name="enter_url">Enter URL</string>
+    <string name="enter_uri">Enter URL</string>
+</resources>
