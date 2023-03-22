@@ -20,7 +20,7 @@ for i in plainText:
         p = ord(i)-65
         c = (p + key) % 26
         cipherText += chr(c+65)
-print(cipherText)
+print("Encrypted Text: ",cipherText)
 
 # Decryption
 decryptedText = ""
@@ -36,4 +36,4 @@ for i in cipherText:
         p = ord(i)-65
         c = (p - key) % 26
         decryptedText += chr(c+65)
-print(decryptedText)
+print("Decrypted Text: ",decryptedText)
