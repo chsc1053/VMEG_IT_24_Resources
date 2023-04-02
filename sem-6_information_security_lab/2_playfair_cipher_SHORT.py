@@ -1,7 +1,3 @@
-# This program demonstrates PLAYFAIR CIPHER.
-# Only lowercase letters are allowed.
-# Ex1: PT: instruments  KEY: monarchy CT: gatlmzclrqxa
-# Ex2: PT: informationsecurity  KEY: playfairexample  CT: rkaseipvekokrdlcbpxg
 import numpy as np
 plainText = input("Enter Plaintext: ")
 key = input("Enter Key String: ")
@@ -37,7 +33,6 @@ m = []
 for i in range(5):
     m.append(l[k:k+5])
     k += 5
-print("Matrix:\n",m)
 mt = np.array(m).T.tolist()
 
 # FUNCTION FOR ENCRYPTION & DECRYPTION
@@ -89,11 +84,9 @@ p = []
 for i in range(int(len(plainText)/2)):
     p.append([plainText[k],plainText[k+1]])
     k += 2
-print("Pairs:\n",p)
 
 # ENCRYPTION
 e = encrypt_decrypt(p,'e')
-print("Encrypted Pairs:\n",e)
 ct = ""
 for i in e:
     ct+=(i[0]+i[1])
@@ -101,7 +94,6 @@ print("\nCipher Text: ",ct)
 
 # DECRYPTION
 d = encrypt_decrypt(e,'d')
-print("\nDecrypted Pairs:\n",d)
 dt = ""
 for i in d:
     dt+=(i[0]+i[1])
