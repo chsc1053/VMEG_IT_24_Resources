@@ -10,29 +10,34 @@ while i < len(plainText)-1:
     i+=1
 if(len(plainText)%2!=0):
     plainText += "x"
+print("\nModified Plain Text: ",plainText)
 
-# Create list
-l = []
+# Create matrix
 alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+m = []
+for i in range(5):
+    m.append(['.'] * 5)
+i = 0
+j = 0
 k = 0
 while k < len(key):
     # add characters from key
-    if key[k] not in l:
-        l.append(key[k])
+    if key[k] not in m[0]+m[1]+m[2]+m[3]+m[4]:
+        m[i][j] = key[k]
+        if j == 4:
+            i += 1
+        j = (j + 1) % 5
     k += 1
 k = 0
 while k < len(alphabet):
     # add remaining characters from  alphabet
-    if alphabet[k] not in l:
-        l.append(alphabet[k])
+    if alphabet[k] not in m[0]+m[1]+m[2]+m[3]+m[4]:
+        m[i][j] = alphabet[k]
+        if j == 4:
+            i += 1
+        j = (j + 1) % 5
     k += 1
-
-# Create matrix
-k = 0
-m = []
-for i in range(5):
-    m.append(l[k:k+5])
-    k += 5
+print("Matrix:\n",m)
 mt = np.array(m).T.tolist()
 
 # FUNCTION FOR ENCRYPTION & DECRYPTION
