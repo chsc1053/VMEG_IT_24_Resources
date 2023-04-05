@@ -41,7 +41,7 @@ print("Matrix:\n",m)
 mt = np.array(m).T.tolist()
 
 # FUNCTION FOR ENCRYPTION & DECRYPTION
-def encrypt_decrypt(p,method):
+def encrypt_decrypt(p,action):
     arr = []
     for pi in range(len(p)):
         # for each pair
@@ -66,16 +66,16 @@ def encrypt_decrypt(p,method):
             i += 1
         if p0i == p1i:
             # same row
-            if method == 'e':
+            if action == 'e':
                 arr.append([m[p0i][(p0j+1) % 5], m[p0i][(p1j+1) % 5]])
-            if method == 'd':
+            if action == 'd':
                 arr.append([m[p0i][(p0j-1) % 5], m[p0i][(p1j-1) % 5]])
             flag = False
         elif p0j == p1j:
             # same column
-            if method == 'e':
+            if action == 'e':
                 arr.append([mt[p0j][(p0i+1) % 5], mt[p0j][(p1i+1) % 5]])
-            if method == 'd':
+            if action == 'd':
                 arr.append([mt[p0j][(p0i-1) % 5], mt[p0j][(p1i-1) % 5]])
             flag = False
         if(flag):
