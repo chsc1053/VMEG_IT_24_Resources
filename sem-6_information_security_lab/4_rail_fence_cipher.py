@@ -1,4 +1,4 @@
-# This program demonstrates PLAYFAIR CIPHER.
+# This program demonstrates RAIL FENCE CIPHER.
 # Only lowercase letters are allowed.
 # Ex1: PT: meetmeafterthetogaparty  DEPTH: 3 CT: mmthgretefeteoaateartpy
 plainText = input("Enter Plaintext: ")
