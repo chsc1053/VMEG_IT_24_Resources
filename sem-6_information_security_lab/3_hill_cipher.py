@@ -16,7 +16,7 @@ k = 0
 while k < len(key):
 	l.append(int(key[k]))
 	k += 1
-km = []
+km = []	# key matrix
 k = 0
 while k < len(key):
 	km.append(l[k:k+kms])
@@ -28,13 +28,13 @@ cipherText = ""
 k = 0
 while k < len(plainText):
 	# creating plain text matrix
-	ptm = []
+	ptm = [] # plain text matrix
 	for i in range(kms):
 		ptm.append([ord(plainText[k+i]) - 97])
 	print("PlainText matrix",int(k/kms),":\n",ptm)
 
 	# multiplying key matrix with plain text matrix to get cipher text matrix: ctm = (km * ptm) % 26
-	ctm = np.matmul(km,ptm) % 26
+	ctm = np.matmul(km,ptm) % 26 # cipher text matrix
 	print("CipherText matrix",int(k/kms),":\n",ctm)
 	for i in range(kms):
 		cipherText = cipherText + chr(ctm[i][0] + 97)
@@ -49,6 +49,7 @@ k = 0
 # determinant
 d = int(sp.linalg.det(km))
 print("Determinant: ",d)
+
 # inverse of determinant
 di = 1
 while((d*di)%26 != 1):
@@ -69,7 +70,7 @@ while k < len(cipherText):
 		ctm.append([ord(cipherText[k+i]) - 97])
 	print("CipherText matrix",int(k/kms),":\n",ctm)
 	
-	# multiplying inverse of key matrix with cipher text matrix to get plain text matrix: dtm = (kmi * ctm) % 26
+	# multiplying inverse of key matrix with cipher text matrix to get decrypted text matrix: dtm = (kmi * ctm) % 26
 	dtm = np.matmul(kmi,ctm) % 26
 	print("DecryptedText matrix",int(k/kms),":\n",dtm)
 	for i in range(kms):

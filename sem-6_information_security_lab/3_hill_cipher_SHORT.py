@@ -1,10 +1,9 @@
 import numpy as np
 import scipy as sp
-plainText = input("Enter Plaintext: ")
+pt = input("Enter Plaintext: ")
 key = input("Enter Key String: ")
 
-# Creating key matrix
-kms = 1 # key matrix size
+kms = 1
 while kms*kms != len(key):
     kms += 1
 l = []
@@ -17,50 +16,52 @@ k = 0
 while k < len(key):
 	km.append(l[k:k+kms])
 	k += kms
+print("Key Matrix: \n",km)
 
-# ENCRYPTION
-cipherText = ""
+print("\nENCRYPTION\n")
+ct = ""
 k = 0
-while k < len(plainText):
-	# creating plain text matrix
+while k < len(pt):
 	ptm = []
 	for i in range(kms):
-		ptm.append([ord(plainText[k+i]) - 97])
+		ptm.append([ord(pt[k+i]) - 97])
+	print("PlainText matrix",int(k/kms),":\n",ptm)
 
-	# multiplying key matrix with plain text matrix to get cipher text matrix: ctm = (km * ptm) % 26
 	ctm = np.matmul(km,ptm) % 26
+	print("CipherText matrix",int(k/kms),":\n",ctm)
 	for i in range(kms):
-		cipherText = cipherText + chr(ctm[i][0] + 97)
+		ct = ct + chr(ctm[i][0] + 97)
 	k += kms
-print("\nCipher Text: ",cipherText)
+print("\nCipher Text: ",ct)
 
 
-# DECRYPTION
-decryptedText = ""
+print("\nDECRYPTION\n")
+dt = ""
 k = 0
 
-# determinant
 d = int(sp.linalg.det(km))
-# inverse of determinant
+print("Determinant: ",d)
+
 di = 1
 while((d*di)%26 != 1):
 	di += 1
+print("Inverse of determinant: ",di)
 
-# inverse of key matrix
 kmi = sp.linalg.inv(km)
 for i in range(len(kmi)):
 	for j in range(len(kmi[i])):
 		kmi[i][j] = kmi[i][j] * d * di
+print("Inverse of key matrix:\n",kmi)
 
-while k < len(cipherText):
-	# creating cipher text matrix
+while k < len(ct):
 	ctm = []
 	for i in range(kms):
-		ctm.append([ord(cipherText[k+i]) - 97])
+		ctm.append([ord(ct[k+i]) - 97])
+	print("CipherText matrix",int(k/kms),":\n",ctm)
 	
-	# multiplying inverse of key matrix with cipher text matrix to get plain text matrix: dtm = (kmi * ctm) % 26
 	dtm = np.matmul(kmi,ctm) % 26
+	print("DecryptedText matrix",int(k/kms),":\n",dtm)
 	for i in range(kms):
-		decryptedText = decryptedText + chr((int(dtm[i][0]) % 26) + 97)
+		dt = dt + chr((int(dtm[i][0]) % 26) + 97)
 	k += kms
-print("\nDecrypted Text: ",decryptedText)
+print("\nDecrypted Text: ",dt)

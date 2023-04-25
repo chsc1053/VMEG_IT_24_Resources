@@ -2,9 +2,6 @@
 # Only uppercase, lowercase letters & spaces are allowed.
 plainText = input("Enter a string: ")
 key = 3
-k = input("Enter key (default = 3 [Press Enter]): ")
-if k != "":
-    key = int(k)
 
 # Encryption
 cipherText = ""

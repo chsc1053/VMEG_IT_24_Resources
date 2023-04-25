@@ -1,18 +1,17 @@
 import numpy as np
-plainText = input("Enter Plaintext: ")
+pt = input("Enter Plaintext: ")
 key = input("Enter Key String: ")
 
 l = []
 i = 0
-while i < len(plainText)-1:
-    if(plainText[i]==plainText[i+1]):
-        plainText = (plainText[:i+1] + "x" + plainText[i+1:])
+while i < len(pt)-1:
+    if(pt[i]==pt[i+1]):
+        pt = (pt[:i+1] + "x" + pt[i+1:])
     i+=1
-if(len(plainText)%2!=0):
-    plainText += "x"
-print("\nModified Plain Text: ",plainText)
+if(len(pt)%2!=0):
+    pt += "x"
+print("\nModified Plain Text: ",pt)
 
-# Create matrix
 alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 m = []
 for i in range(5):
@@ -21,7 +20,6 @@ i = 0
 j = 0
 k = 0
 while k < len(key):
-    # add characters from key
     if key[k] not in m[0]+m[1]+m[2]+m[3]+m[4]:
         m[i][j] = key[k]
         if j == 4:
@@ -30,7 +28,6 @@ while k < len(key):
     k += 1
 k = 0
 while k < len(alphabet):
-    # add remaining characters from  alphabet
     if alphabet[k] not in m[0]+m[1]+m[2]+m[3]+m[4]:
         m[i][j] = alphabet[k]
         if j == 4:
@@ -40,12 +37,17 @@ while k < len(alphabet):
 print("Matrix:\n",m)
 mt = np.array(m).T.tolist()
 
+k = 0
+p = []
+for i in range(int(len(pt)/2)):
+    p.append([pt[k],pt[k+1]])
+    k += 2
+print("Pairs:\n",p)
+
 # FUNCTION FOR ENCRYPTION & DECRYPTION
-def encrypt_decrypt(p,action):
+def encrypt_decrypt(p,method):
     arr = []
     for pi in range(len(p)):
-        # for each pair
-        flag = True
         found0 = False
         found1 = False
         p0i = -1
@@ -54,7 +56,6 @@ def encrypt_decrypt(p,action):
         p1j = -1
         i = 0
         while not (found0 and found1):
-            # get indices of the pair characters
             if p[pi][0] in m[i]:
                 p0i = i
                 p0j = m[i].index(p[pi][0])
@@ -65,33 +66,22 @@ def encrypt_decrypt(p,action):
                 found1 = True
             i += 1
         if p0i == p1i:
-            # same row
-            if action == 'e':
+            if method == 'e':
                 arr.append([m[p0i][(p0j+1) % 5], m[p0i][(p1j+1) % 5]])
-            if action == 'd':
+            if method == 'd':
                 arr.append([m[p0i][(p0j-1) % 5], m[p0i][(p1j-1) % 5]])
-            flag = False
         elif p0j == p1j:
-            # same column
-            if action == 'e':
+            if method == 'e':
                 arr.append([mt[p0j][(p0i+1) % 5], mt[p0j][(p1i+1) % 5]])
-            if action == 'd':
+            if method == 'd':
                 arr.append([mt[p0j][(p0i-1) % 5], mt[p0j][(p1i-1) % 5]])
-            flag = False
-        if(flag):
-            # diff row & col
+        else:
             arr.append([m[p0i][p1j], m[p1i][p0j]])
     return arr
 
-# Create plain text pairs
-k = 0
-p = []
-for i in range(int(len(plainText)/2)):
-    p.append([plainText[k],plainText[k+1]])
-    k += 2
-
 # ENCRYPTION
 e = encrypt_decrypt(p,'e')
+print("Encrypted Pairs:\n",e)
 ct = ""
 for i in e:
     ct+=(i[0]+i[1])
@@ -99,6 +89,7 @@ print("\nCipher Text: ",ct)
 
 # DECRYPTION
 d = encrypt_decrypt(e,'d')
+print("\nDecrypted Pairs:\n",d)
 dt = ""
 for i in d:
     dt+=(i[0]+i[1])

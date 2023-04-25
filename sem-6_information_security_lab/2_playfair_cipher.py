@@ -44,21 +44,28 @@ while k < len(alphabet):
 print("Matrix:\n",m)
 mt = np.array(m).T.tolist()
 
+# Create plain text pairs
+k = 0
+p = [] # plain text pairs
+for i in range(int(len(plainText)/2)):
+    p.append([plainText[k],plainText[k+1]])
+    k += 2
+print("Pairs:\n",p)
+
 # FUNCTION FOR ENCRYPTION & DECRYPTION
-def encrypt_decrypt(p,method):
+def encrypt_decrypt(p,method): # method = 'e' means encryption, method = 'd' means decryption
     arr = []
+    # for each pair
     for pi in range(len(p)):
-        # for each pair
-        flag = True
         found0 = False
         found1 = False
-        p0i = -1
-        p0j = -1
-        p1i = -1
-        p1j = -1
+        p0i = -1 # row number of 1st character in the pair
+        p0j = -1 # column number of 1st character in the pair
+        p1i = -1 # row number of 2nd character in the pair
+        p1j = -1 # column number of 2nd character in the pair
         i = 0
+        # get row and column numbers (indices) of the characters in the pair
         while not (found0 and found1):
-            # get indices of the pair characters
             if p[pi][0] in m[i]:
                 p0i = i
                 p0j = m[i].index(p[pi][0])
@@ -68,45 +75,35 @@ def encrypt_decrypt(p,method):
                 p1j = m[i].index(p[pi][1])
                 found1 = True
             i += 1
+        # if pair characters are in same row
         if p0i == p1i:
-            # same row
             if method == 'e':
                 arr.append([m[p0i][(p0j+1) % 5], m[p0i][(p1j+1) % 5]])
             if method == 'd':
                 arr.append([m[p0i][(p0j-1) % 5], m[p0i][(p1j-1) % 5]])
-            flag = False
+        # elif pair characters are in same column
         elif p0j == p1j:
-            # same column
             if method == 'e':
                 arr.append([mt[p0j][(p0i+1) % 5], mt[p0j][(p1i+1) % 5]])
             if method == 'd':
                 arr.append([mt[p0j][(p0i-1) % 5], mt[p0j][(p1i-1) % 5]])
-            flag = False
-        if(flag):
-            # diff row & col
+        # else pair characters are in different row & col
+        else:
             arr.append([m[p0i][p1j], m[p1i][p0j]])
     return arr
 
-# Create plain text pairs
-k = 0
-p = []
-for i in range(int(len(plainText)/2)):
-    p.append([plainText[k],plainText[k+1]])
-    k += 2
-print("Pairs:\n",p)
-
 # ENCRYPTION
-e = encrypt_decrypt(p,'e')
-print("Encrypted Pairs:\n",e)
-ct = ""
-for i in e:
-    ct+=(i[0]+i[1])
-print("\nCipher Text: ",ct)
+encryptedPairs = encrypt_decrypt(p,'e')
+print("Encrypted Pairs:\n",encryptedPairs)
+cipherText = ""
+for pair in encryptedPairs:
+    cipherText+=(pair[0]+pair[1])
+print("\nCipher Text: ",cipherText)
 
 # DECRYPTION
-d = encrypt_decrypt(e,'d')
-print("\nDecrypted Pairs:\n",d)
-dt = ""
-for i in d:
-    dt+=(i[0]+i[1])
-print("\nDecrypted Text: ",dt)
+decryptedPairs = encrypt_decrypt(encryptedPairs,'d')
+print("\nDecrypted Pairs:\n",decryptedPairs)
+decryptedText = ""
+for pair in decryptedPairs:
+    decryptedText+=(pair[0]+pair[1])
+print("\nDecrypted Text: ",decryptedText)
