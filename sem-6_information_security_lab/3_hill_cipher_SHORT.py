@@ -3,18 +3,12 @@ import scipy as sp
 pt = input("Enter Plaintext: ")
 key = input("Enter Key String: ")
 
-kms = 1
-while kms*kms != len(key):
-    kms += 1
+kms = 2
 l = []
-k = 0
-while k < len(key):
-	l.append(int(key[k]))
-	k += 1
 km = []
 k = 0
 while k < len(key):
-	km.append(l[k:k+kms])
+	km.append([int(key[k]),int(key[k+1])])
 	k += kms
 print("Key Matrix: \n",km)
 
