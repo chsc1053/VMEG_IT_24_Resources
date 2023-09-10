@@ -5,61 +5,61 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      displayValue: "0",
-      operand1: null,
-      operator: null,
+      res: "0",
+      val1: null,
+      op: null,
       isCalculating: false,
     };
   }
 
   handleDigitClick = (digit) => {
-    const { displayValue, isCalculating } = this.state;
+    const { res, isCalculating } = this.state;
 
     if (isCalculating) {
       this.setState({
-        displayValue: digit,
+        res: digit,
         isCalculating: false,
       });
     } else {
       this.setState({
-        displayValue: displayValue === "0" ? digit : displayValue + digit,
+        res: res === "0" ? digit : res + digit,
       });
     }
   };
 
-  handleOperatorClick = (operator) => {
-    const { displayValue } = this.state;
+  handleOpClick = (op) => {
+    const { res } = this.state;
 
     this.setState({
-      operand1: parseFloat(displayValue),
-      operator,
+      val1: parseFloat(res),
+      op,
       isCalculating: true,
     });
   };
 
   handleEqualClick = () => {
-    const { operand1, operator, displayValue } = this.state;
+    const { val1, op, res } = this.state;
 
-    if (operand1 !== null && operator !== null) {
-      const operand2 = parseFloat(displayValue);
+    if (val1 !== null && op !== null) {
+      const val2 = parseFloat(res);
 
       let result = 0;
 
-      switch (operator) {
+      switch (op) {
         case "+":
-          result = operand1 + operand2;
+          result = val1 + val2;
           break;
 
         case "-":
-          result = operand1 - operand2;
+          result = val1 - val2;
           break;
 
         case "*":
-          result = operand1 * operand2;
+          result = val1 * val2;
           break;
 
         case "/":
-          result = operand1 / operand2;
+          result = val1 / val2;
           break;
 
         default:
@@ -67,9 +67,9 @@ class App extends Component {
       }
 
       this.setState({
-        displayValue: result.toString(),
-        operand1: null,
-        operator: null,
+        res: result.toString(),
+        val1: null,
+        op: null,
         isCalculating: false,
       });
     }
@@ -77,19 +77,19 @@ class App extends Component {
 
   handleClearClick = () => {
     this.setState({
-      displayValue: "0",
-      operand1: null,
-      operator: null,
+      res: "0",
+      val1: null,
+      op: null,
       isCalculating: false,
     });
   };
 
   render() {
-    const { displayValue } = this.state;
+    const { res } = this.state;
 
     return (
       <div className="calculator">
-        <div className="display">{displayValue}</div>
+        <div className="display">{res}</div>
 
         <div className="button-row">
           <button onClick={() => this.handleDigitClick("7")}>7</button>
@@ -98,7 +98,7 @@ class App extends Component {
 
           <button onClick={() => this.handleDigitClick("9")}>9</button>
 
-          <button onClick={() => this.handleOperatorClick("+")}>+</button>
+          <button onClick={() => this.handleOpClick("+")}>+</button>
         </div>
 
         <div className="button-row">
@@ -108,7 +108,7 @@ class App extends Component {
 
           <button onClick={() => this.handleDigitClick("6")}>6</button>
 
-          <button onClick={() => this.handleOperatorClick("-")}>-</button>
+          <button onClick={() => this.handleOpClick("-")}>-</button>
         </div>
 
         <div className="button-row">
@@ -118,7 +118,7 @@ class App extends Component {
 
           <button onClick={() => this.handleDigitClick("3")}>3</button>
 
-          <button onClick={() => this.handleOperatorClick("*")}>*</button>
+          <button onClick={() => this.handleOpClick("*")}>*</button>
         </div>
 
         <div className="button-row">
@@ -128,7 +128,7 @@ class App extends Component {
 
           <button onClick={this.handleEqualClick}>=</button>
 
-          <button onClick={() => this.handleOperatorClick("/")}>/</button>
+          <button onClick={() => this.handleOpClick("/")}>/</button>
         </div>
       </div>
     );
